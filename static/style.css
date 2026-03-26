@@ -270,3 +270,25 @@ width:520px;
 min-height:300px;
 max-height:600px;
 }
+
+.send-btn {
+    background: linear-gradient(45deg,#7b2ff7,#f107a3);
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 12px 18px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.chat-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+}
