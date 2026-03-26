@@ -34,8 +34,8 @@ def chat():
         reply = response.choices[0].message.content
 
     except Exception as e:
-    print("AI ERROR:", e)
-    reply = "Server AI error"
+        print("AI ERROR:", e)
+        reply = "Server AI error"
 
     return jsonify({"reply": reply})
 
