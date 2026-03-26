@@ -69,7 +69,7 @@ inputField.addEventListener("keypress", function(e){
     }
 })
 
-function sendMessage(){
+function askAI(){
 
     let input = document.getElementById("question")
     let chat = document.getElementById("chat")
@@ -80,7 +80,7 @@ function sendMessage(){
 
     chat.innerHTML += `<div class="user">${q}</div>`
 
-    fetch("/chat",{
+    fetch(window.location.origin +"/chat",{
         method:"POST",
         headers:{ "Content-Type":"application/json"},
         body: JSON.stringify({ message:q })
