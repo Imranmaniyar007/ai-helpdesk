@@ -1,16 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from openai import OpenAI
-from dotenv import load_dotenv
 import os
 
-load_dotenv()
-
 app = Flask(__name__)
-
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
-
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -34,10 +26,9 @@ def chat():
         reply = response.choices[0].message.content
 
     except Exception as e:
-        print("AI ERROR:", e)
-        reply = "Server AI error"
+        reply = str(e)
 
     return jsonify({"reply": reply})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

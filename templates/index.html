@@ -69,18 +69,18 @@ inputField.addEventListener("keypress", function(e){
     }
 })
 
-function askAI(){
+function sendMessage(){
 
     let input = document.getElementById("question")
     let chat = document.getElementById("chat")
 
-    let q = input.value
+    let q = input.value.trim()
 
     if(q === "") return
 
     chat.innerHTML += `<div class="user">${q}</div>`
 
-    fetch(window.location.origin +"/chat",{
+    fetch("/chat",{
         method:"POST",
         headers:{ "Content-Type":"application/json"},
         body: JSON.stringify({ message:q })
@@ -89,6 +89,9 @@ function askAI(){
     .then(data=>{
         chat.innerHTML += `<div class="bot">${data.reply}</div>`
         chat.scrollTop = chat.scrollHeight
+    })
+    .catch(err=>{
+        chat.innerHTML += `<div class="bot">Server connection error</div>`
     })
 
     input.value=""
