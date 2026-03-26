@@ -9,22 +9,21 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def home():
     return render_template("index.html")
 
-@app.route("/ask", methods=["POST"])
-def ask():
-    data = request.json
-    question = data["question"]
+@app.route("/chat", methods=["POST"])
+def chat():
+    user_message = request.json["message"]
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4.1-mini",
         messages=[
-            {"role":"system","content":"You are a helpful IT helpdesk expert."},
-            {"role":"user","content":question}
+            {"role": "system", "content": "You are a smart AI Helpdesk assistant. Answer any question politely."},
+            {"role": "user", "content": user_message}
         ]
     )
 
-    answer = response.choices[0].message.content
+    reply = response.choices[0].message.content
 
-    return jsonify({"answer":answer})
+    return jsonify({"reply": reply})
 
 if __name__ == "__main__":
     app.run(debug=True)
