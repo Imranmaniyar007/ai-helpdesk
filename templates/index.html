@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI HelpDesk</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+    <div class="cyber-bg">
+<div class="grid"></div>
+<div class="glow"></div>
+<div class="particles"></div>
+</div>
+    <div class="bg-animation"></div>
+
+    <nav id="navbar">
+
+        <div class="logo">
+            <div class="ai-logo">AI</div>
+            <span>HelpDesk</span>
+        </div>
+
+    </nav>
+
+    <div class="main">
+
+        <div class="chat-card">
+
+            <div class="chat-area" id="chat">
+                <div class="robot-intro" id="robotIntro">
+
+<div class="robot-head">
+<div class="eye"></div>
+<div class="eye"></div>
+</div>
+
+<h2 class="robot-text">Hello My Friend… How can I assist you today?</h2>
+
+</div>
+            </div>
+
+            <div class="input-area">
+
+                <input id="question" placeholder="Ask your technical issue...">
+                <button onclick="askAI()">Send</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        © 2026 AI HelpDesk Expert System
+    </footer>
+
+    <script>
+
+        let text = "Hi 👋 I am AI HelpDesk. How can I help you today?"
+
+        let i = 0
+
+        function type() {
+            if (i < text.length) {
+                document.getElementById("typingText").innerHTML += text.charAt(i)
+                i++
+                setTimeout(type, 40)
+            }
+        }
+
+        window.onload = type
+
+        window.addEventListener("scroll", function () {
+            let nav = document.getElementById("navbar")
+            nav.classList.toggle("scrolled", window.scrollY > 20)
+        })
+
+        function askAI() {
+            document.getElementById("aiIntro").style.display = "none"
+            let input = document.getElementById("question")
+            let chat = document.getElementById("chat")
+
+            let q = input.value
+
+            if (q === "") return
+
+            chat.innerHTML += `<div class="user">${q}</div>`
+
+            fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question: q })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    chat.innerHTML += `<div class="bot">${data.answer}</div>`
+                    chat.scrollTop = chat.scrollHeight
+                })
+
+            input.value = ""
+
+        }
+
+    </script>
+
+</body>
+
+</html>
