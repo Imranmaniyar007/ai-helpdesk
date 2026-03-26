@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-3.1-pro-preview")
 
 @app.route("/")
 def home():
