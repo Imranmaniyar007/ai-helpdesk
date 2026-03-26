@@ -47,7 +47,7 @@
                 <input id="question" placeholder="Ask your technical issue...">
                 <button onclick="sendMessage()" class="send-btn">
                     ➤
-                </button>n>
+                </button>
 
             </div>
 
@@ -60,58 +60,41 @@
     </footer>
 
     <script>
-        inputField.addEventListener("keypress", function (e) {
-            if (e.key === "Enter") {
-                sendMessage();
-            }
-        });
 
-        let text = "Hi 👋 I am AI HelpDesk. How can I help you today?"
+let inputField = document.getElementById("question")
 
-        let i = 0
+inputField.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        sendMessage()
+    }
+})
 
-        function type() {
-            if (i < text.length) {
-                document.getElementById("typingText").innerHTML += text.charAt(i)
-                i++
-                setTimeout(type, 40)
-            }
-        }
+function sendMessage(){
 
-        window.onload = type
+    let input = document.getElementById("question")
+    let chat = document.getElementById("chat")
 
-        window.addEventListener("scroll", function () {
-            let nav = document.getElementById("navbar")
-            nav.classList.toggle("scrolled", window.scrollY > 20)
-        })
+    let q = input.value
 
-        function askAI() {
-            document.getElementById("aiIntro").style.display = "none"
-            let input = document.getElementById("question")
-            let chat = document.getElementById("chat")
+    if(q === "") return
 
-            let q = input.value
+    chat.innerHTML += `<div class="user">${q}</div>`
 
-            if (q === "") return
+    fetch("/chat",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json"},
+        body: JSON.stringify({ message:q })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        chat.innerHTML += `<div class="bot">${data.reply}</div>`
+        chat.scrollTop = chat.scrollHeight
+    })
 
-            chat.innerHTML += `<div class="user">${q}</div>`
+    input.value=""
+}
 
-            fetch("/ask", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ question: q })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    chat.innerHTML += `<div class="bot">${data.answer}</div>`
-                    chat.scrollTop = chat.scrollHeight
-                })
-
-            input.value = ""
-
-        }
-
-    </script>
+</script>
 
 </body>
 
