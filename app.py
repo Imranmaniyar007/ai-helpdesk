@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 from openai import OpenAI
-
+import os
 app = Flask(__name__)
 
-client = OpenAI(api_key="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")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route("/")
 def home():
