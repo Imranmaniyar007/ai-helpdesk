@@ -61,41 +61,44 @@
 
     <script>
 
-let inputField = document.getElementById("question")
+async function sendMessage(){
 
-inputField.addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-        sendMessage()
-    }
+let input = document.getElementById("question")
+let message = input.value
+
+if(message.trim() === "") return
+
+let chat = document.getElementById("chat")
+
+// remove intro robot on first message
+let intro = document.getElementById("robotIntro")
+if(intro) intro.remove()
+
+chat.innerHTML += `<div class="user-msg">${message}</div>`
+
+input.value=""
+
+let response = await fetch("/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({message:message})
 })
 
-function sendMessage(){
+let data = await response.json()
 
-    let input = document.getElementById("question")
-    let chat = document.getElementById("chat")
+chat.innerHTML += `<div class="bot-msg">${data.reply}</div>`
 
-    let q = input.value.trim()
+chat.scrollTop = chat.scrollHeight
 
-    if(q === "") return
-
-    chat.innerHTML += `<div class="user">${q}</div>`
-
-    fetch("/chat",{
-        method:"POST",
-        headers:{ "Content-Type":"application/json"},
-        body: JSON.stringify({ message:q })
-    })
-    .then(res=>res.json())
-    .then(data=>{
-        chat.innerHTML += `<div class="bot">${data.reply}</div>`
-        chat.scrollTop = chat.scrollHeight
-    })
-    .catch(err=>{
-        chat.innerHTML += `<div class="bot">Server connection error</div>`
-    })
-
-    input.value=""
 }
+
+document.getElementById("question").addEventListener("keypress",function(e){
+if(e.key==="Enter"){
+sendMessage()
+}
+})
 
 </script>
 
