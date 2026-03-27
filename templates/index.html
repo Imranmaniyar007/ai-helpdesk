@@ -41,6 +41,11 @@
 
                 </div>
             </div>
+            <div class="suggestions">
+                <button onclick="quick('wifi not working')">Wifi</button>
+                <button onclick="quick('laptop slow')">Slow</button>
+                <button onclick="quick('heating issue')">Heating</button>
+            </div>
 
             <div class="input-area">
 
@@ -61,46 +66,62 @@
 
     <script>
 
-async function sendMessage(){
+        async function sendMessage() {
 
-let input = document.getElementById("question")
-let message = input.value
+            let input = document.getElementById("question")
+            let msg = input.value
 
-if(message.trim() === "") return
+            if (msg === "") return
 
-let chat = document.getElementById("chat")
+            let chat = document.getElementById("chat")
 
-// remove intro robot on first message
-let intro = document.getElementById("robotIntro")
-if(intro) intro.remove()
+            chat.innerHTML += `<div class="user-msg">${msg}</div>`
 
-chat.innerHTML += `<div class="user-msg">${message}</div>`
+            input.value = ""
 
-input.value=""
+            chat.innerHTML += `<div class="bot-msg" id="thinking">AI is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>`
 
-let response = await fetch("/chat",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body: JSON.stringify({message:message})
-})
+            let res = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: msg })
+            })
 
-let data = await response.json()
+            let data = await res.json()
 
-chat.innerHTML += `<div class="bot-msg">${data.reply}</div>`
+            document.getElementById("thinking").remove()
 
-chat.scrollTop = chat.scrollHeight
+            let bubble = document.createElement("div")
+            bubble.className = "bot-msg"
 
-}
+            chat.appendChild(bubble)
 
-document.getElementById("question").addEventListener("keypress",function(e){
-if(e.key==="Enter"){
-sendMessage()
-}
-})
+            typeText(bubble, data.reply)
 
-</script>
+        }
+
+
+        function typeText(el, text) {
+
+            let i = 0
+
+            let interval = setInterval(() => {
+
+                el.innerHTML += text[i]
+                i++
+
+                if (i >= text.length)
+                    clearInterval(interval)
+
+            }, 20)
+
+        }
+        function quick(q) {
+            document.getElementById("question").value = q
+            sendMessage()
+        }
+
+    </script>
 
 </body>
 

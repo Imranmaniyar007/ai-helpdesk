@@ -1,0 +1,11 @@
+import sqlite3
+
+db=sqlite3.connect("users.db")
+cur=db.cursor()
+
+cur.execute("CREATE TABLE users(username TEXT,password TEXT)")
+cur.execute("INSERT INTO users VALUES('admin','123')")
+
+cur.execute("CREATE TABLE chats(username TEXT,msg TEXT,reply TEXT)")
+
+db.commit()
