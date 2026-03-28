@@ -535,11 +535,14 @@ footer {
 }
 
 /* NAV RIGHT */
-.nav-right{
-margin-left:auto;
-display:flex;
-gap:10px;
+.nav-right {
+  /* margin-right: auto; */ /* REMOVE THIS */
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end; /* ADD THIS */
+  margin-left: auto; /* Optional: push group to far right if parent allows */
 }
+
 
 .nav-btn{
 background:#9333ea;
@@ -692,10 +695,10 @@ left:-50%;
 
 background: conic-gradient(
     from 0deg,
-    #6d28d9,
-    #9333ea,
-    #4c1d95,
-    #6d28d9
+    #000000,
+    #18012d,
+    #471395,
+    #7837e1
 );
 
 opacity:0.25;
@@ -714,7 +717,7 @@ height:180%;
 top:-40%;
 left:-40%;
 
-background: radial-gradient(circle, #9333ea33, transparent 60%);
+background: radial-gradient(circle, #3c16ba, transparent 60%);
 filter: blur(100px);
 
 animation: pulseWave 8s ease-in-out infinite;
