@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+<title>Signup</title>
 
 <style>
-
 body{
 background:black;
 color:white;
@@ -39,6 +38,9 @@ border:none;
 cursor:pointer;
 }
 
+a{
+color:cyan;
+}
 </style>
 
 </head>
@@ -47,14 +49,15 @@ cursor:pointer;
 
 <form class="box" method="POST">
 
-<h2>AI HelpDesk Login</h2>
+<h2>Create Account</h2>
 
-<input name="username" placeholder="Username">
-<input name="password" placeholder="Password">
+<input name="username" placeholder="Username" required>
+<input name="password" placeholder="Password" required>
 
-<button>Login</button>
+<button>Signup</button>
 
-<p>New user? <a href="/signup">Create account</a></p>
+<p>Already have account? <a href="/login">Login</a></p>
+
 </form>
 
 </body>

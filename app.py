@@ -7,7 +7,7 @@ app.secret_key = "secret123"
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "login"
+login_manager.login_view = "login"   # 🔥 THIS FIXES REDIRECT
 
 HELPLINE = "992260XXXX"
 
@@ -47,6 +47,32 @@ def login():
 def logout():
     logout_user()
     return redirect("/login")
+
+@app.route("/signup", methods=["GET","POST"])
+def signup():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+        password = request.form["password"]
+
+        db = get_db()
+        cur = db.cursor()
+
+        # check if user already exists
+        cur.execute("SELECT * FROM users WHERE username=?", (username,))
+        existing = cur.fetchone()
+
+        if existing:
+            return "User already exists!"
+
+        # insert new user
+        cur.execute("INSERT INTO users VALUES (?,?)", (username, password))
+        db.commit()
+
+        return redirect("/login")
+
+    return render_template("signup.html")
 
 # ---------- EXPERT BOT ----------
 def expert_reply(msg, user):

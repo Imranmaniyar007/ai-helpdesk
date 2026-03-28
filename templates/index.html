@@ -9,8 +9,10 @@
 </head>
 
 <body>
-    <div class="history-panel" id="history">
-    <h3>History</h3>
+    <button id="toggleHistory" class="history-btn">☰ History</button>
+
+<div id="historyPanel" class="history-panel">
+    <h3>Chat History</h3>
     <div id="historyList"></div>
 </div>
 
@@ -75,7 +77,13 @@
     </footer>
 
     <script>
+
         let history = JSON.parse(localStorage.getItem("chatHistory")) || []
+        let historyPanel = document.getElementById("historyPanel")
+
+document.getElementById("toggleHistory").onclick = () => {
+    historyPanel.classList.toggle("active")
+}
 
 async function sendMessage() {
 
