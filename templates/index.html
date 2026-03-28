@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="icon" href="/static/logo.png" type="image/png">
     <title>AI HelpDesk</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -10,15 +11,22 @@
 
 <!-- NAVBAR -->
 <nav id="navbar">
-    <div class="logo">
-        <div class="ai-logo">AI</div>
-        <span>HelpDesk</span>
+
+    <!-- LEFT SIDE -->
+    <div class="nav-left">
+        <button id="toggleHistory" class="icon-btn">☰</button>
+
+        <div class="logo">
+            <div class="ai-logo">AI</div>
+            <span>HelpDesk</span>
+        </div>
     </div>
 
+    <!-- RIGHT SIDE -->
     <div class="nav-right">
-        <button id="toggleHistory" class="nav-btn">☰ History</button>
         <a href="/logout" class="nav-btn logout">Logout</a>
     </div>
+
 </nav>
 
 <!-- HISTORY PANEL -->
@@ -29,9 +37,7 @@
 
 <!-- BACKGROUND -->
 <div class="cyber-bg">
-    <div class="grid"></div>
-    <div class="glow"></div>
-    <div class="particles"></div>
+    
 </div>
 
 <!-- MAIN -->
@@ -121,6 +127,12 @@ async function sendMessage() {
     chat.appendChild(bubble)
 
     typeText(bubble, data.reply)
+    bubble.innerHTML += `
+<div class="follow-ups">
+    <button onclick="quick('still not working')">Still not working</button>
+    <button onclick="quick('any other solution')">More help</button>
+</div>
+`
 
 }
 

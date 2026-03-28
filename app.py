@@ -177,6 +177,19 @@ def expert_reply(msg, user):
 3. Update graphics driver
 4. Restart device"""
 
+    # SOUND
+    elif "sound" in m or "audio" in m or "speaker" in m:
+        return "Check volume mixer and reinstall audio driver."
+
+    # STORAGE
+    elif "storage" in m or "disk full" in m:
+        return "Delete temporary files and run disk cleanup."
+
+    # SOFTWARE
+    elif "install" in m or "software" in m:
+        return "Run installer as administrator."
+
+
     else:
         return f"""❌ I couldn't fully understand.
 
