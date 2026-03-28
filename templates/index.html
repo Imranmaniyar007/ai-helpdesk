@@ -9,6 +9,11 @@
 </head>
 
 <body>
+    <div class="history-panel" id="history">
+    <h3>History</h3>
+    <div id="historyList"></div>
+</div>
+
     <div class="cyber-bg">
         <div class="grid"></div>
         <div class="glow"></div>
@@ -41,11 +46,16 @@
 
                 </div>
             </div>
-            <div class="suggestions">
-                <button onclick="quick('wifi not working')">Wifi</button>
-                <button onclick="quick('laptop slow')">Slow</button>
-                <button onclick="quick('heating issue')">Heating</button>
-            </div>
+            <div class="recommend-box">
+    <p>Common Problems:</p>
+    <div class="suggestions">
+        <button onclick="quick('wifi not working')">WiFi Issue</button>
+        <button onclick="quick('laptop slow')">Slow Laptop</button>
+        <button onclick="quick('heating issue')">Heating</button>
+        <button onclick="quick('battery draining fast')">Battery</button>
+        <button onclick="quick('internet not working')">Internet</button>
+    </div>
+</div>
 
             <div class="input-area">
 
@@ -65,11 +75,13 @@
     </footer>
 
     <script>
+        let history = JSON.parse(localStorage.getItem("chatHistory")) || []
 
 async function sendMessage() {
 
     let input = document.getElementById("question")
     let msg = input.value
+    saveHistory(msg)
 
     if (msg === "") return
 
@@ -97,6 +109,12 @@ async function sendMessage() {
     chat.appendChild(bubble)
 
     typeText(bubble, data.reply)
+    bubble.innerHTML += `
+<div class="follow-ups">
+    <button onclick="quick('still not working')">Still not working</button>
+    <button onclick="quick('any other solution')">More help</button>
+</div>
+`
 
 }
 
@@ -107,6 +125,23 @@ function typeText(el, text) {
         i++
         if (i >= text.length) clearInterval(interval)
     }, 20)
+}
+
+function saveHistory(msg){
+    history.push(msg)
+    localStorage.setItem("chatHistory", JSON.stringify(history))
+    loadHistory()
+}
+
+function loadHistory(){
+    let list = document.getElementById("historyList")
+    if(!list) return
+
+    list.innerHTML = ""
+
+    history.slice(-10).forEach(h=>{
+        list.innerHTML += `<div>${h}</div>`
+    })
 }
 
 function quick(q) {
@@ -120,6 +155,9 @@ document.getElementById("question").addEventListener("keypress", function(e){
         sendMessage()
     }
 })
+
+loadHistory()
+
 
 </script>
 

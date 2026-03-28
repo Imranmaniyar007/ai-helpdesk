@@ -53,32 +53,126 @@ def expert_reply(msg, user):
 
     m = msg.lower()
 
-    # remember last issue
-    db = get_db()
-    cur = db.cursor()
+    if "wifi" in m or "wi-fi" in m:
+        return """📡 WIFI ISSUE SOLUTION:
 
-    # responses
-    if "wifi" in m:
-        reply = "🔧 Restart router, check cables, and reconnect WiFi."
+1. Restart router (wait 10 sec)
+2. Forget & reconnect WiFi
+3. Check airplane mode OFF
+4. Restart device
+5. Try another device to confirm issue
+
+👉 If still not working → ISP problem possible"""
+
     elif "slow" in m:
-        reply = "⚡ Close background apps and disable startup programs."
+        return """🐢 LAPTOP SLOW FIX:
+
+1. Close background apps (Task Manager)
+2. Disable startup programs
+3. Delete temp files (Disk Cleanup)
+4. Check storage (keep 20% free)
+5. Restart system
+
+💡 Tip: Add SSD for huge speed boost"""
+
     elif "heat" in m or "heating" in m:
-        reply = "🌡 Clean laptop vents and use cooling pad."
+        return """🌡 HEATING ISSUE:
+
+1. Clean air vents
+2. Use cooling pad
+3. Avoid bed/soft surface
+4. Close heavy apps
+5. Replace thermal paste (advanced)
+
+⚠ Overheating can damage CPU"""
+
     elif "battery" in m:
-        reply = "🔋 Reduce brightness and close unused apps."
-    elif "internet" in m:
-        reply = "🌐 Check ISP connection or restart modem."
-    elif "hang" in m:
-        reply = "💻 System may be overloaded. Restart recommended."
+        return """🔋 BATTERY DRAIN FIX:
+
+1. Lower brightness
+2. Turn off Bluetooth/WiFi when unused
+3. Close background apps
+4. Enable battery saver
+5. Check battery health
+
+💡 Replace battery if old"""
+
+    elif "internet" in m or "network" in m:
+        return """🌐 INTERNET ISSUE:
+
+1. Restart modem
+2. Check ISP connection
+3. Reset network settings
+4. Try LAN cable
+5. Speed test
+
+👉 Could be ISP downtime"""
+
+    elif "hang" in m or "freeze" in m:
+        return """💻 SYSTEM HANG:
+
+1. Press Ctrl+Alt+Del
+2. End heavy processes
+3. Restart system
+4. Scan for virus
+5. Upgrade RAM if frequent"""
+
+    elif "virus" in m or "malware" in m:
+        return """🛡 VIRUS ALERT:
+
+1. Run full antivirus scan
+2. Delete suspicious files
+3. Avoid unknown downloads
+4. Keep system updated
+
+⚠ Use trusted antivirus only"""
+
+    elif "bluetooth" in m:
+        return """📶 BLUETOOTH ISSUE:
+
+1. Turn OFF/ON Bluetooth
+2. Remove & reconnect device
+3. Update drivers
+4. Restart system"""
+
+    elif "keyboard" in m:
+        return """⌨ KEYBOARD ISSUE:
+
+1. Check keys stuck
+2. Restart system
+3. Reinstall drivers
+4. Try external keyboard"""
+
+    elif "screen" in m:
+        return """🖥 SCREEN ISSUE:
+
+1. Adjust brightness
+2. Check display cable
+3. Update graphics driver
+4. Restart device"""
+
     else:
-        reply = f"❌ I cannot solve this.\n📞 Contact HelpDesk: {HELPLINE}"
+        return f"""❌ I couldn't fully understand.
 
-    # save chat
-    cur.execute("INSERT INTO chats(user, question, answer) VALUES(?,?,?)",
-                (user, msg, reply))
-    db.commit()
+👉 Try asking:
+• wifi not working  
+• laptop slow  
+• heating issue  
+• battery draining  
+• internet problem  
 
-    return reply
+📞 Contact HelpDesk: {HELPLINE}"""
+
+    return f"""❌ I couldn't fully understand.
+
+👉 Try asking:
+• wifi not working  
+• laptop slow  
+• heating issue  
+• battery draining  
+• internet problem  
+
+📞 Contact HelpDesk: {HELPLINE}"""
 
 # ---------- ROUTES ----------
 @app.route("/")
