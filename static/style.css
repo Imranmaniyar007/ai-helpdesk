@@ -437,3 +437,99 @@ border-radius:15px;
 .chat-area::-webkit-scrollbar-track {
     background: transparent;
 }
+
+/* FIX MAIN ALIGNMENT */
+.main {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+/* FIX CHAT CARD */
+.chat-card {
+    width:520px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+/* FIX INPUT INSIDE CARD */
+.input-area {
+    display:flex;
+    gap:10px;
+}
+
+.input-area input {
+    flex:1;
+}
+
+/* FIX FOOTER */
+footer {
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:black;
+}
+
+/* LOGOUT BUTTON */
+.logout-btn {
+    position:absolute;
+    right:30px;
+    color:white;
+    text-decoration:none;
+}
+
+/* HISTORY PANEL */
+.history-panel {
+    position:fixed;
+    left:-250px;
+    width:250px;
+    height:100%;
+    background:black;
+    transition:0.4s;
+    padding:20px;
+}
+
+.history-panel.active {
+    left:0;
+}
+
+/* BUTTON FIX */
+.suggestions {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.suggestions button {
+    flex:1 1 45%;
+}
+
+/* REMOVE WHITE SCROLL */
+.chat-area::-webkit-scrollbar {
+    width:6px;
+}
+
+.chat-area::-webkit-scrollbar-thumb {
+    background:rgba(255,255,255,0.2);
+}
+
+/* 🔥 NEW WAVE BACKGROUND */
+.wave, .wave2 {
+    position:absolute;
+    width:200%;
+    height:200%;
+    background: radial-gradient(circle, rgba(147,51,234,0.2), transparent);
+    animation:waveMove 10s linear infinite;
+}
+
+.wave2 {
+    animation-duration: 20s;
+    opacity:0.5;
+}
+
+@keyframes waveMove {
+    from { transform:translateY(0) }
+    to { transform:translateY(-200px) }
+}

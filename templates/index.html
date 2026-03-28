@@ -2,96 +2,96 @@
 <html>
 
 <head>
-
     <title>AI HelpDesk</title>
     <link rel="stylesheet" href="/static/style.css">
-
 </head>
 
 <body>
-    <button id="toggleHistory" class="history-btn">☰ History</button>
+
+<!-- 🔥 HISTORY BUTTON -->
+<button id="toggleHistory" class="history-btn">☰</button>
 
 <div id="historyPanel" class="history-panel">
     <h3>Chat History</h3>
     <div id="historyList"></div>
 </div>
 
-    <div class="cyber-bg">
-        <div class="grid"></div>
-        <div class="glow"></div>
-        <div class="particles"></div>
-    </div>
-    <div class="bg-animation"></div>
-
-    <nav id="navbar">
-
-        <div class="logo">
-            <div class="ai-logo">AI</div>
-            <span>HelpDesk</span>
-        </div>
-
-    </nav>
-
-    <div class="main">
-
-        <div class="chat-card">
-
-            <div class="chat-area" id="chat">
-                <div class="robot-intro" id="robotIntro">
-
-                    <div class="robot-head">
-                        <div class="eye"></div>
-                        <div class="eye"></div>
-                    </div>
-
-                    <h2 class="robot-text">Hello My Friend… How can I assist you today?</h2>
-
-                </div>
-            </div>
-            <div class="recommend-box">
-    <p>Common Problems:</p>
-    <div class="suggestions">
-        <button onclick="quick('wifi not working')">WiFi Issue</button>
-        <button onclick="quick('laptop slow')">Slow Laptop</button>
-        <button onclick="quick('heating issue')">Heating</button>
-        <button onclick="quick('battery draining fast')">Battery</button>
-        <button onclick="quick('internet not working')">Internet</button>
-    </div>
+<!-- 🔥 BACKGROUND -->
+<div class="cyber-bg">
+    <div class="wave"></div>
+    <div class="wave2"></div>
 </div>
 
-            <div class="input-area">
+<!-- 🔥 NAVBAR -->
+<nav>
+    <div class="logo">
+        <div class="ai-logo">AI</div>
+        <span>HelpDesk</span>
+    </div>
 
-                <input id="question" placeholder="Ask your technical issue...">
-                <button onclick="sendMessage()" class="send-btn">
-                    ➤
-                </button>
+    <!-- 🔥 LOGOUT BUTTON -->
+    <a href="/logout" class="logout-btn">Logout</a>
+</nav>
 
+<!-- 🔥 MAIN -->
+<div class="main">
+
+    <div class="chat-card">
+
+        <!-- CHAT AREA -->
+        <div class="chat-area" id="chat">
+            <div class="robot-intro">
+                <div class="robot-head">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <h2>Hello My Friend… How can I assist you today?</h2>
             </div>
+        </div>
 
+        <!-- COMMON PROBLEMS -->
+        <div class="recommend-box">
+            <p>Common Problems:</p>
+            <div class="suggestions">
+                <button onclick="quick('wifi not working')">WiFi</button>
+                <button onclick="quick('laptop slow')">Slow</button>
+                <button onclick="quick('heating issue')">Heating</button>
+                <button onclick="quick('battery issue')">Battery</button>
+                <button onclick="quick('internet issue')">Internet</button>
+            </div>
+        </div>
+
+        <!-- INPUT -->
+        <div class="input-area">
+            <input id="question" placeholder="Ask your technical issue...">
+            <button onclick="sendMessage()">➤</button>
         </div>
 
     </div>
 
-    <footer>
-        © 2026 AI HelpDesk Expert System
-    </footer>
+</div>
 
-    <script>
+<!-- FOOTER -->
+<footer>
+    © 2026 AI HelpDesk | Contact: 992260XXXX
+</footer>
 
-        let history = JSON.parse(localStorage.getItem("chatHistory")) || []
-        let historyPanel = document.getElementById("historyPanel")
+<script>
+
+let history = JSON.parse(localStorage.getItem("chatHistory")) || []
 
 document.getElementById("toggleHistory").onclick = () => {
-    historyPanel.classList.toggle("active")
+    document.getElementById("historyPanel").classList.toggle("active")
 }
 
 async function sendMessage() {
 
     let input = document.getElementById("question")
     let msg = input.value
-    saveHistory(msg)
 
-    if (msg === "") return
+    if(msg === "") return
+
+    saveHistory(msg)
 
     let chat = document.getElementById("chat")
 
@@ -99,8 +99,7 @@ async function sendMessage() {
 
     input.value = ""
 
-    // thinking animation
-    chat.innerHTML += `<div class="bot-msg" id="thinking">AI is thinking<span>.</span><span>.</span><span>.</span></div>`
+    chat.innerHTML += `<div class="bot-msg" id="thinking">AI is thinking...</div>`
 
     let res = await fetch("/chat", {
         method: "POST",
@@ -112,27 +111,9 @@ async function sendMessage() {
 
     document.getElementById("thinking").remove()
 
-    let bubble = document.createElement("div")
-    bubble.className = "bot-msg"
-    chat.appendChild(bubble)
+    chat.innerHTML += `<div class="bot-msg">${data.reply}</div>`
 
-    typeText(bubble, data.reply)
-    bubble.innerHTML += `
-<div class="follow-ups">
-    <button onclick="quick('still not working')">Still not working</button>
-    <button onclick="quick('any other solution')">More help</button>
-</div>
-`
-
-}
-
-function typeText(el, text) {
-    let i = 0
-    let interval = setInterval(() => {
-        el.innerHTML += text[i]
-        i++
-        if (i >= text.length) clearInterval(interval)
-    }, 20)
+    chat.scrollTop = chat.scrollHeight
 }
 
 function saveHistory(msg){
@@ -143,21 +124,17 @@ function saveHistory(msg){
 
 function loadHistory(){
     let list = document.getElementById("historyList")
-    if(!list) return
-
     list.innerHTML = ""
-
     history.slice(-10).forEach(h=>{
         list.innerHTML += `<div>${h}</div>`
     })
 }
 
-function quick(q) {
+function quick(q){
     document.getElementById("question").value = q
     sendMessage()
 }
 
-// ENTER key
 document.getElementById("question").addEventListener("keypress", function(e){
     if(e.key === "Enter"){
         sendMessage()
@@ -166,9 +143,7 @@ document.getElementById("question").addEventListener("keypress", function(e){
 
 loadHistory()
 
-
 </script>
 
 </body>
-
 </html>
