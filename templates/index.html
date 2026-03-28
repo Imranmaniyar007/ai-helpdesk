@@ -66,62 +66,62 @@
 
     <script>
 
-        async function sendMessage() {
+async function sendMessage() {
 
-            let input = document.getElementById("question")
-            let msg = input.value
+    let input = document.getElementById("question")
+    let msg = input.value
 
-            if (msg === "") return
+    if (msg === "") return
 
-            let chat = document.getElementById("chat")
+    let chat = document.getElementById("chat")
 
-            chat.innerHTML += `<div class="user-msg">${msg}</div>`
+    chat.innerHTML += `<div class="user-msg">${msg}</div>`
 
-            input.value = ""
+    input.value = ""
 
-            chat.innerHTML += `<div class="bot-msg" id="thinking">AI is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>`
+    // thinking animation
+    chat.innerHTML += `<div class="bot-msg" id="thinking">AI is thinking<span>.</span><span>.</span><span>.</span></div>`
 
-            let res = await fetch("/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: msg })
-            })
+    let res = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+    })
 
-            let data = await res.json()
+    let data = await res.json()
 
-            document.getElementById("thinking").remove()
+    document.getElementById("thinking").remove()
 
-            let bubble = document.createElement("div")
-            bubble.className = "bot-msg"
+    let bubble = document.createElement("div")
+    bubble.className = "bot-msg"
+    chat.appendChild(bubble)
 
-            chat.appendChild(bubble)
+    typeText(bubble, data.reply)
 
-            typeText(bubble, data.reply)
+}
 
-        }
+function typeText(el, text) {
+    let i = 0
+    let interval = setInterval(() => {
+        el.innerHTML += text[i]
+        i++
+        if (i >= text.length) clearInterval(interval)
+    }, 20)
+}
 
+function quick(q) {
+    document.getElementById("question").value = q
+    sendMessage()
+}
 
-        function typeText(el, text) {
+// ENTER key
+document.getElementById("question").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        sendMessage()
+    }
+})
 
-            let i = 0
-
-            let interval = setInterval(() => {
-
-                el.innerHTML += text[i]
-                i++
-
-                if (i >= text.length)
-                    clearInterval(interval)
-
-            }, 20)
-
-        }
-        function quick(q) {
-            document.getElementById("question").value = q
-            sendMessage()
-        }
-
-    </script>
+</script>
 
 </body>
 
