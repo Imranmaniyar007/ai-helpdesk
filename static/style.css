@@ -540,7 +540,7 @@ footer {
   display: flex;
   gap: 10px;
   justify-content: flex-end; /* ADD THIS */
-  margin-left: auto; /* Optional: push group to far right if parent allows */
+   /* Optional: push group to far right if parent allows */
 }
 
 
